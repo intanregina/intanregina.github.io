@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Intan Regina — Strategic Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAF0CA;
+  --bg-soft: #FCF4D6;
+  --paper: #FFFAE5;
+  --ink: #0D3B66;
+  --ink-soft: #1F4F7F;
+  --ink-mute: #6B7E94;
+  --line: #E8D89E;
+  --line-strong: #D4B978;
+  --accent: #0D3B66;
+  --accent-warm: #C9A961;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.serif { font-family: 'Fraunces', serif; }
+.mono { font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 24px 48px;
+  display: flex; justify-content: space-between; align-items: center;
+  backdrop-filter: blur(12px);
+  background: rgba(250, 240, 202, 0.88);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease;
+}
+nav.scrolled { border-bottom-color: var(--line); }
+nav .logo {
+  font-family: 'Fraunces', serif; font-weight: 500; font-size: 18px;
+  letter-spacing: -0.01em; color: var(--ink);
+}
+nav .logo em { font-style: italic; color: var(--accent-warm); }
+nav ul { display: flex; list-style: none; gap: 36px; }
+nav ul a {
+  text-decoration: none; color: var(--ink-soft);
+  font-size: 13px; font-weight: 400; letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+nav ul a:hover { color: var(--accent-warm); }
+
+.hero {
+  min-height: 100vh; padding: 140px 48px 80px;
+  position: relative;
+  display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px;
+  align-items: center;
+}
+.hero::before {
+  content: ""; position: absolute; top: 50%; right: 36%;
+  width: 1px; height: 60%; background: var(--line-strong);
+  transform: translateY(-50%);
+}
+.hero-left .eyebrow {
+  font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--ink-mute); margin-bottom: 36px;
+  display: flex; align-items: center; gap: 14px;
+}
+.hero-left .eyebrow::before {
+  content: ""; width: 40px; height: 1px; background: var(--ink);
+}
+.hero-left h1 {
+  font-family: 'Fraunces', serif; font-weight: 300;
+  font-size: clamp(48px, 7.5vw, 104px);
+  line-height: 0.94; letter-spacing: -0.035em;
+  margin-bottom: 36px; color: var(--ink);
+}
+.hero-left h1 em { font-style: italic; font-weight: 400; }
+.hero-left h1 .ampersand {
+  font-family: 'Fraunces', serif; font-style: italic;
+  color: var(--accent-warm); font-weight: 400;
+}
+.hero-left .tagline {
+  font-size: 19px; color: var(--ink-soft);
+  max-width: 520px; line-height: 1.55; margin-bottom: 48px;
+}
+.hero-left .tagline strong { font-weight: 500; color: var(--ink); }
+.hero-meta { display: flex; gap: 56px; }
+.hero-meta div {
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.hero-meta div span {
+  display: block; font-family: 'Fraunces', serif; font-size: 17px;
+  letter-spacing: 0; text-transform: none; color: var(--ink);
+  font-weight: 400; margin-top: 8px;
+}
+.hero-right { position: relative; }
+.hero-card {
+  background: var(--ink); color: var(--bg);
+  padding: 48px 40px; border-radius: 4px;
+  position: relative; overflow: hidden;
+}
+.hero-card::before {
+  content: ""; position: absolute; top: -50%; right: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle at 30% 30%, rgba(250, 240, 202, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero-card .card-eyebrow {
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--accent-warm); margin-bottom: 28px;
+}
+.hero-card h3 {
+  font-family: 'Fraunces', serif; font-weight: 300; font-size: 26px;
+  line-height: 1.2; letter-spacing: -0.015em; margin-bottom: 32px;
+}
+.hero-card h3 em { font-style: italic; color: var(--accent-warm); }
+.dual-stats {
+  display: flex; flex-direction: column; gap: 22px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(250, 240, 202, 0.2);
+}
+.dual-stat { display: flex; align-items: baseline; gap: 18px; }
+.dual-stat .num {
+  font-family: 'Fraunces', serif; font-size: 38px; font-weight: 300;
+  letter-spacing: -0.02em; line-height: 1; color: var(--bg);
+  min-width: 80px;
+}
+.dual-stat .num em { font-style: italic; color: var(--accent-warm); }
+.dual-stat .desc {
+  font-size: 12px; color: var(--bg-soft); opacity: 0.85; line-height: 1.45;
+}
+
+section { padding: 110px 48px; max-width: 1280px; margin: 0 auto; }
+.section-label {
+  display: flex; align-items: center; gap: 18px;
+  margin-bottom: 56px;
+  font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.section-label::before {
+  content: ""; width: 48px; height: 1px; background: var(--ink);
+}
+.section-label .num { font-family: 'JetBrains Mono', monospace; color: var(--accent-warm); }
+
+.edge-section {
+  background: var(--ink); color: var(--bg);
+  padding: 120px 48px; margin: 80px -48px 0; position: relative;
+}
+.edge-inner { max-width: 1180px; margin: 0 auto; }
+.edge-section .section-label { color: rgba(250, 240, 202, 0.55); }
+.edge-section .section-label::before { background: var(--accent-warm); }
+.edge-section .section-label .num { color: var(--accent-warm); }
+.edge-headline {
+  font-family: 'Fraunces', serif; font-weight: 300;
+  font-size: clamp(36px, 4.5vw, 60px);
+  line-height: 1.05; letter-spacing: -0.025em;
+  margin-bottom: 56px; max-width: 1000px;
+}
+.edge-headline em { font-style: italic; color: var(--accent-warm); }
+.edge-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+  margin-top: 56px; padding-top: 48px;
+  border-top: 1px solid rgba(250, 240, 202, 0.18);
+}
+.edge-column h4 {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 24px; font-weight: 400; color: var(--accent-warm);
+  margin-bottom: 18px; letter-spacing: -0.01em;
+}
+.edge-column p {
+  font-size: 16px; line-height: 1.65;
+  color: var(--bg-soft); opacity: 0.9; margin-bottom: 16px;
+}
+.edge-column .role-tag {
+  display: inline-block; font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--accent-warm);
+  padding: 6px 14px; border: 1px solid rgba(201, 169, 97, 0.4);
+  border-radius: 100px; margin-bottom: 24px;
+}
+.edge-bridge {
+  margin-top: 56px; padding: 32px 40px;
+  background: rgba(250, 240, 202, 0.06);
+  border-left: 2px solid var(--accent-warm);
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 22px; line-height: 1.45; letter-spacing: -0.01em;
+  color: var(--bg);
+}
+.edge-bridge em { color: var(--accent-warm); font-style: italic; }
+
+.about { display: grid; grid-template-columns: 1fr 2fr; gap: 96px; align-items: start; }
+.about h2 {
+  font-family: 'Fraunces', serif; font-weight: 300;
+  font-size: clamp(36px, 4.5vw, 60px);
+  line-height: 1.04; letter-spacing: -0.025em; color: var(--ink);
+}
+.about h2 em { font-style: italic; color: var(--accent-warm); }
+.about-text p {
+  font-size: 17px; line-height: 1.7; color: var(--ink-soft);
+  margin-bottom: 26px; max-width: 660px;
+}
+.about-text p:first-child::first-letter {
+  font-family: 'Fraunces', serif; font-size: 60px; font-weight: 400;
+  float: left; line-height: 0.88; margin: 6px 14px 0 0;
+  color: var(--accent-warm); font-style: italic;
+}
+.skills-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+  margin-top: 72px; padding-top: 56px; border-top: 1px solid var(--line);
+}
+.skill-col h4 {
+  font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent-warm); margin-bottom: 22px; font-weight: 600;
+}
+.skill-col ul { list-style: none; }
+.skill-col li {
+  font-size: 15px; color: var(--ink-soft);
+  padding: 10px 0; border-bottom: 1px solid var(--line);
+}
+.skill-col li:last-child { border-bottom: none; }
+
+.approach-intro {
+  font-family: 'Fraunces', serif; font-weight: 300;
+  font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.02em;
+  max-width: 900px; margin-bottom: 64px; color: var(--ink);
+}
+.approach-intro em { font-style: italic; color: var(--accent-warm); }
+.approach-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px;
+  background: var(--line);
+}
+.approach-step {
+  background: var(--bg-soft); padding: 52px 44px; position: relative;
+  transition: background 0.3s ease;
+}
+.approach-step:hover { background: var(--paper); }
+.approach-step .step-num {
+  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+  color: var(--accent-warm); margin-bottom: 26px; letter-spacing: 0.08em;
+}
+.approach-step h3 {
+  font-family: 'Fraunces', serif; font-size: 30px; font-weight: 400;
+  letter-spacing: -0.015em; margin-bottom: 18px;
+  color: var(--ink); line-height: 1.15;
+}
+.approach-step h3 em { font-style: italic; color: var(--accent-warm); }
+.approach-step p { font-size: 15px; line-height: 1.65; color: var(--ink-soft); }
+
+.case { margin-top: 96px; padding-top: 96px; border-top: 1px solid var(--line); }
+.case:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+.case-header { display: grid; grid-template-columns: 1fr 2fr; gap: 96px; margin-bottom: 72px; }
+.case-meta .case-num {
+  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+  color: var(--accent-warm); margin-bottom: 16px; letter-spacing: 0.08em;
+}
+.case-meta .industry {
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-mute); margin-bottom: 28px;
+}
+.case-meta h2 {
+  font-family: 'Fraunces', serif; font-weight: 300; font-size: 46px;
+  line-height: 1.05; letter-spacing: -0.025em; margin-bottom: 28px; color: var(--ink);
+}
+.case-meta h2 em { font-style: italic; color: var(--accent-warm); }
+.case-detail-block { margin-bottom: 32px; }
+.case-detail-block h5 {
+  font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent-warm); margin-bottom: 12px; font-weight: 600;
+}
+.case-detail-block p { font-size: 16px; line-height: 1.65; color: var(--ink-soft); }
+.case-insight {
+  border-left: 2px solid var(--accent-warm);
+  padding: 12px 0 12px 28px; margin: 36px 0;
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 24px; line-height: 1.4; color: var(--ink);
+}
+
+.slides-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+.slide {
+  background: var(--paper); border: 1px solid var(--line);
+  aspect-ratio: 16 / 10; padding: 36px; position: relative;
+  display: flex; flex-direction: column; overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.slide:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px -24px rgba(13, 59, 102, 0.18);
+}
+.slide.featured { grid-column: span 2; aspect-ratio: 32 / 11; }
+.slide-tag {
+  position: absolute; top: 18px; right: 22px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  color: var(--ink-mute); letter-spacing: 0.06em;
+}
+.slide h6 {
+  font-family: 'Fraunces', serif; font-size: 20px; font-weight: 500;
+  line-height: 1.2; margin-bottom: 26px; letter-spacing: -0.015em;
+  padding-right: 60px; color: var(--ink);
+}
+.slide h6 em { font-style: italic; color: var(--accent-warm); }
+
+.slide-bignumber { display: flex; flex-direction: column; justify-content: space-between; }
+.slide-bignumber .big {
+  font-family: 'Fraunces', serif; font-size: clamp(64px, 8vw, 116px);
+  font-weight: 300; line-height: 0.92; letter-spacing: -0.04em;
+  color: var(--ink); margin: 12px 0 8px;
+}
+.slide-bignumber .big em { font-style: italic; color: var(--accent-warm); }
+.slide-bignumber .sublabel { font-size: 13px; color: var(--ink-mute); max-width: 85%; line-height: 1.45; }
+
+.sov-bar-row { display: flex; align-items: center; margin-bottom: 11px; gap: 12px; }
+.sov-bar-label { font-size: 11px; font-weight: 500; width: 80px; flex-shrink: 0; color: var(--ink); }
+.sov-bar { flex: 1; height: 16px; background: var(--bg); position: relative; overflow: hidden; }
+.sov-bar-fill { height: 100%; background: var(--ink); }
+.sov-bar-fill.accent { background: var(--accent-warm); }
+.sov-bar-value {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  color: var(--ink-soft); width: 40px; text-align: right;
+}
+
+.slide-quote { justify-content: center; }
+.slide-quote .quote-mark {
+  font-family: 'Fraunces', serif; font-size: 68px;
+  color: var(--accent-warm); line-height: 0.5; margin-bottom: 14px;
+}
+.slide-quote .quote-text {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 23px; line-height: 1.35; color: var(--ink);
+  margin-bottom: 22px; letter-spacing: -0.015em;
+}
+.slide-quote .quote-text em { color: var(--accent-warm); font-style: italic; }
+.slide-quote .quote-attr {
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute);
+}
+
+.moment-map { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 12px; }
+.moment-cell {
+  border: 1px solid var(--line); padding: 13px 10px;
+  font-size: 9px; background: var(--bg-soft);
+}
+.moment-cell.hilite { border-color: var(--accent-warm); background: rgba(201, 169, 97, 0.08); }
+.moment-cell .time {
+  font-family: 'JetBrains Mono', monospace; color: var(--accent-warm);
+  font-size: 9px; margin-bottom: 7px; font-weight: 500;
+}
+.moment-cell .mindset {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 10px; color: var(--ink); line-height: 1.3;
+}
+
+.asset-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-top: 9px; }
+.asset-cell { padding: 12px; border: 1px solid var(--line); background: var(--bg-soft); font-size: 10px; }
+.asset-cell.win { border-color: var(--accent-warm); }
+.asset-cell .asset-num {
+  font-family: 'Fraunces', serif; font-size: 34px; font-weight: 300;
+  line-height: 1; color: var(--ink);
+}
+.asset-cell.win .asset-num em { color: var(--accent-warm); font-style: normal; }
+.asset-cell .asset-label { font-size: 10px; color: var(--ink-mute); margin-top: 5px; line-height: 1.35; }
+.asset-cell .asset-label strong { color: var(--ink); }
+
+.gap-viz { display: flex; flex-direction: column; gap: 13px; margin-top: 8px; }
+.gap-row { display: flex; align-items: center; gap: 12px; }
+.gap-brand { font-size: 12px; font-weight: 500; width: 80px; flex-shrink: 0; color: var(--ink); }
+.gap-track { flex: 1; height: 22px; background: var(--bg); position: relative; }
+.gap-fill { height: 100%; background: var(--ink); }
+.gap-fill.lead { background: var(--accent-warm); }
+.gap-value {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  width: 70px; text-align: right; color: var(--ink-soft);
+}
+.gap-callout {
+  margin-top: 16px; padding: 11px 16px;
+  background: var(--bg); border-left: 2px solid var(--accent-warm);
+  font-size: 11px; font-style: italic; color: var(--ink-soft); line-height: 1.45;
+}
+
+.calendar-strip { display: grid; grid-template-columns: repeat(12, 1fr); gap: 4px; margin-top: 14px; }
+.cal-cell {
+  aspect-ratio: 1; background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  color: var(--ink-soft); border: 1px solid var(--line);
+}
+.cal-cell.silent { background: var(--ink); color: var(--bg); font-weight: 500; border-color: var(--ink); }
+.cal-labels { display: grid; grid-template-columns: repeat(12, 1fr); gap: 4px; margin-top: 5px; }
+.cal-month { font-size: 8px; color: var(--ink-mute); text-align: center; letter-spacing: 0.05em; }
+.cal-month.hilite { color: var(--ink); font-weight: 600; }
+
+.disconnect-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px; }
+.disconnect-col h7 {
+  display: block; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-mute); margin-bottom: 10px;
+}
+.disconnect-item {
+  display: flex; justify-content: space-between; font-size: 11px;
+  padding: 5px 0; border-bottom: 1px solid var(--line); color: var(--ink-soft);
+}
+.disconnect-item.hilite { color: var(--accent-warm); font-weight: 600; }
+
+.pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; margin-top: 13px; }
+.pillar { padding: 16px; border: 1px solid var(--line); background: var(--bg-soft); font-size: 11px; }
+.pillar-num {
+  font-family: 'Fraunces', serif; font-size: 30px;
+  color: var(--accent-warm); line-height: 1; margin-bottom: 9px; font-style: italic;
+}
+.pillar h7 {
+  display: block; font-family: 'Fraunces', serif; font-size: 15px;
+  margin-bottom: 7px; font-weight: 500; color: var(--ink);
+}
+.pillar p { font-size: 11px; color: var(--ink-mute); line-height: 1.45; }
+
+.sim-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.sim-row {
+  display: flex; gap: 13px; align-items: center;
+  padding: 9px 13px; border: 1px solid var(--line); background: var(--bg-soft);
+}
+.sim-row .sim-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent-warm); font-weight: 600; }
+.sim-row .sim-text { font-size: 12px; color: var(--ink-soft); }
+.sim-row .sim-text strong { color: var(--ink); }
+
+.works-list { display: flex; flex-direction: column; gap: 13px; margin-top: 14px; }
+.works-row { display: flex; gap: 16px; align-items: flex-start; }
+.works-row .works-num {
+  font-family: 'Fraunces', serif; font-size: 34px; line-height: 1;
+  font-weight: 300; color: var(--accent-warm);
+}
+.works-row.dark .works-num { color: var(--ink); }
+.works-row .works-text { font-size: 12px; color: var(--ink-soft); line-height: 1.45; padding-top: 4px; }
+.works-row .works-text strong { color: var(--ink); }
+
+.why-list { margin-top: 16px; font-size: 13px; line-height: 1.7; color: var(--ink-soft); }
+.why-list p { margin-bottom: 4px; }
+.why-list strong.ink { color: var(--ink); }
+.why-list strong.accent { color: var(--accent-warm); }
+
+.earlier {
+  background: var(--ink); color: var(--bg);
+  padding: 96px 48px; margin: 96px -48px 0;
+}
+.earlier-wrap {
+  max-width: 1280px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 2fr; gap: 96px; align-items: start;
+}
+.earlier .section-label { color: rgba(250, 240, 202, 0.5); }
+.earlier .section-label::before { background: var(--accent-warm); }
+.earlier .section-label .num { color: var(--accent-warm); }
+.earlier h3 {
+  font-family: 'Fraunces', serif; font-weight: 300; font-size: 40px;
+  line-height: 1.08; letter-spacing: -0.025em;
+}
+.earlier h3 em { font-style: italic; color: var(--accent-warm); }
+.earlier p {
+  font-size: 16px; line-height: 1.65; opacity: 0.85;
+  margin-bottom: 22px; color: var(--bg-soft);
+}
+.earlier-stat {
+  font-family: 'Fraunces', serif; font-size: 72px; font-weight: 300;
+  line-height: 1; letter-spacing: -0.03em;
+  margin: 36px 0 10px; color: var(--accent-warm); font-style: italic;
+}
+.earlier-stat-label { font-size: 13px; opacity: 0.75; letter-spacing: 0.05em; color: var(--bg-soft); }
+
+.cta {
+  padding: 160px 48px 120px; text-align: center;
+  border-top: 1px solid var(--line); position: relative; overflow: hidden;
+}
+.cta::before {
+  content: ""; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 900px; height: 900px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(13, 59, 102, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-content { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; }
+.cta .eyebrow {
+  font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--ink-mute); margin-bottom: 36px;
+}
+.cta h2 {
+  font-family: 'Fraunces', serif; font-weight: 300;
+  font-size: clamp(48px, 6.5vw, 88px);
+  line-height: 1.04; letter-spacing: -0.03em;
+  margin-bottom: 36px; color: var(--ink);
+}
+.cta h2 em { font-style: italic; color: var(--accent-warm); }
+.cta p {
+  font-size: 18px; color: var(--ink-soft); line-height: 1.65;
+  margin-bottom: 56px; max-width: 660px; margin-left: auto; margin-right: auto;
+}
+.cta-buttons { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 18px 32px; border: 1px solid var(--ink);
+  background: var(--ink); color: var(--bg);
+  text-decoration: none; font-size: 14px;
+  letter-spacing: 0.06em; font-weight: 500;
+  transition: all 0.3s ease;
+}
+.btn:hover {
+  background: var(--accent-warm); border-color: var(--accent-warm);
+  color: var(--ink); transform: translateY(-2px);
+}
+.btn.secondary { background: transparent; color: var(--ink); }
+.btn.secondary:hover { background: var(--ink); color: var(--bg); }
+.btn .arrow { transition: transform 0.3s ease; }
+.btn:hover .arrow { transform: translateX(4px); }
+
+footer {
+  padding: 44px 48px; border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 12px; color: var(--ink-mute); letter-spacing: 0.05em;
+}
+footer .right { font-family: 'JetBrains Mono', monospace; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal { opacity: 0; animation: fadeUp 1s ease forwards; }
+.reveal-1 { animation-delay: 0.1s; }
+.reveal-2 { animation-delay: 0.25s; }
+.reveal-3 { animation-delay: 0.4s; }
+.reveal-4 { animation-delay: 0.55s; }
+.scroll-reveal {
+  opacity: 0; transform: translateY(36px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.scroll-reveal.in { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 900px) {
+  nav { padding: 20px 24px; }
+  nav ul { display: none; }
+  .hero { padding: 120px 24px 60px; grid-template-columns: 1fr; gap: 60px; }
+  .hero::before { display: none; }
+  section { padding: 70px 24px; }
+  .about { grid-template-columns: 1fr; gap: 40px; }
+  .skills-grid { grid-template-columns: 1fr; gap: 32px; }
+  .approach-grid { grid-template-columns: 1fr; }
+  .case-header { grid-template-columns: 1fr; gap: 32px; }
+  .case-meta h2 { font-size: 32px; }
+  .slides-grid { grid-template-columns: 1fr; }
+  .slide.featured { grid-column: span 1; aspect-ratio: 16 / 10; }
+  .earlier { margin: 70px -24px 0; padding: 70px 24px; }
+  .earlier-wrap { grid-template-columns: 1fr; gap: 32px; }
+  .edge-section { padding: 80px 24px; margin: 60px -24px 0; }
+  .edge-grid { grid-template-columns: 1fr; gap: 40px; }
+  .cta { padding: 96px 24px; }
+  footer { padding: 28px 24px; flex-direction: column; gap: 12px; }
+  .moment-map { grid-template-columns: repeat(2, 1fr); }
+  .pillars-grid { grid-template-columns: 1fr; }
+  .calendar-strip, .cal-labels { grid-template-columns: repeat(6, 1fr); }
+  .hero-card { padding: 36px 28px; }
+  .dual-stat .num { font-size: 32px; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="logo">Intan <em>Regina</em></div>
+  <ul>
+    <li><a href="#edge">The Edge</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#approach">Approach</a></li>
+    <li><a href="#work">Selected Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="eyebrow reveal reveal-1">Selected Strategic Work · 2025–2026</div>
+    <h1 class="reveal reveal-2">
+      Strategy <span class="ampersand">&</span> <br>
+      <em>delivery</em>, <br>
+      in one mind.
+    </h1>
+    <p class="tagline reveal reveal-3">
+      Most strategists can't talk to engineers. Most Scrum Masters can't build C-suite decks.
+      <strong>I do both</strong> — and that's why my strategy work lands, and my delivery work scales.
+    </p>
+    <div class="hero-meta reveal reveal-4">
+      <div>Based<span>Jakarta, ID</span></div>
+      <div>Currently<span>Playlog · StickEarn</span></div>
+    </div>
+  </div>
+  <div class="hero-right reveal reveal-3">
+    <div class="hero-card">
+      <div class="card-eyebrow">Two roles, one operator</div>
+      <h3>A strategist who <em>actually knows</em> what's deliverable — and an agile lead who <em>actually knows</em> what executives want.</h3>
+      <div class="dual-stats">
+        <div class="dual-stat">
+          <div class="num"><em>10+</em></div>
+          <div class="desc">Strategic decks built for brand managers &amp; C-suite this quarter</div>
+        </div>
+        <div class="dual-stat">
+          <div class="num">3<em>yrs</em></div>
+          <div class="desc">Leading Scrum ceremonies, sprint delivery &amp; engineering team operations</div>
+        </div>
+        <div class="dual-stat">
+          <div class="num">6</div>
+          <div class="desc">Industries served: FMCG · Tobacco · Telco · QSR · Automotive · Ride-Hailing</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="edge" class="edge-section">
+  <div class="edge-inner">
+    <div class="section-label scroll-reveal"><span class="num">01</span><span>The Edge</span></div>
+    <h2 class="edge-headline scroll-reveal">
+      The Jakarta strategy market is full of people who can do <em>one half</em> of this job. <br>
+      My value is doing <em>both halves</em> — at the same time, on the same product.
+    </h2>
+    <div class="edge-grid">
+      <div class="edge-column scroll-reveal">
+        <span class="role-tag">Role 01 · Strategic Planner</span>
+        <h4>I find the story executives buy.</h4>
+        <p>
+          At Playlog, I lead client strategy for Indonesia's OOH measurement platform. My job is to translate
+          raw measurement data — reach, frequency, share of voice, audience POI — into the one provocative
+          insight that earns budget and trust at the C-level.
+        </p>
+        <p>
+          I own the narrative end-to-end: the framework, the data interrogation, the deck, the executive
+          presentation. In the last quarter alone, that work has opened doors at major FMCG, telco, and tobacco brands.
+        </p>
+      </div>
+      <div class="edge-column scroll-reveal">
+        <span class="role-tag">Role 02 · Scrum Master</span>
+        <h4>I keep the work deliverable.</h4>
+        <p>
+          At StickEarn, I lead the Scrum framework for engineering teams — sprint planning, backlog grooming,
+          retrospectives, JIRA reporting, weekly knowledge sessions. I sit between product owners, engineers,
+          and tech leads, and I keep the trains running.
+        </p>
+        <p>
+          This is the part most strategists don't have. When I propose a recommendation, I already know
+          if it's deliverable, how long it takes, and what it costs the engineering team to build.
+        </p>
+      </div>
+    </div>
+    <div class="edge-bridge scroll-reveal">
+      That's the bridge. Strategy that respects delivery. Delivery that understands the commercial outcome.
+      It's the profile <em>ad-tech, platforms, and B2B SaaS companies actually need</em> — and rarely find in one person.
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-label scroll-reveal"><span class="num">02</span><span>About</span></div>
+  <div class="about">
+    <h2 class="scroll-reveal">A strategist forged in <em>broadcast, agile, and the boardroom</em>.</h2>
+    <div class="about-text scroll-reveal">
+      <p>
+        I started in broadcast media as a Radio Producer, where I learned how to coordinate people,
+        content, and tight timelines under live pressure — and grew a daily program's listenership
+        by 70% in a single year through audience-led strategy.
+      </p>
+      <p>
+        I then moved into product support and agile delivery as a Scrum Master at StickEarn, working
+        alongside engineers, product owners, and tech leads. I learned how products actually get built,
+        how sprints break or hold, and how to translate between technical and commercial teams.
+      </p>
+      <p>
+        Now, as Strategic Planner at Playlog, I sit at the intersection of those two crafts. I work with
+        raw measurement data directly, partner with our analytics team for queries beyond my scope, and
+        own the strategic narrative from question to recommendation to executive presentation. The Scrum
+        Master fluency means my recommendations are operationally grounded. The strategy lens means my
+        delivery work points at outcomes, not just output.
+      </p>
+      <p>
+        What I do best is build the bridge between raw analytics and executive attention — the part of
+        strategy work that data analysts can't do alone, and designers can't do alone. I find the story
+        that matters, build the argument around it, and deliver it in a way that earns budget and trust.
+      </p>
+      <div class="skills-grid">
+        <div class="skill-col">
+          <h4>Strategy Practice</h4>
+          <ul>
+            <li>Strategic narrative &amp; executive storytelling</li>
+            <li>OOH measurement &amp; ad-tech analytics</li>
+            <li>Client pitch decks &amp; quarterly business reviews</li>
+            <li>Competitive intelligence &amp; category analysis</li>
+            <li>Persona &amp; placement strategy</li>
+          </ul>
+        </div>
+        <div class="skill-col">
+          <h4>Delivery Practice</h4>
+          <ul>
+            <li>Scrum framework &amp; sprint ceremonies</li>
+            <li>JIRA, backlog grooming, sprint reporting</li>
+            <li>Cross-functional alignment (product · engineering)</li>
+            <li>Stakeholder management &amp; client presentation</li>
+            <li>Broadcast production &amp; live event coordination</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="approach">
+  <div class="section-label scroll-reveal"><span class="num">03</span><span>How I Work</span></div>
+  <h2 class="approach-intro scroll-reveal">
+    Strategy work, done well, is <em>not</em> about decks. The decks are the artifact.
+    The real work happens before the first slide — and continues after the deck is delivered.
+  </h2>
+  <div class="approach-grid">
+    <div class="approach-step scroll-reveal">
+      <div class="step-num">STEP 01</div>
+      <h3>Understand the <em>commercial</em> question</h3>
+      <p>Before I look at any data, I clarify the question the client actually needs answered. "How is the campaign performing?" is rarely the real question. The real question is usually "should I renew, expand, or reallocate budget — and why?" I work backwards from that decision.</p>
+    </div>
+    <div class="approach-step scroll-reveal">
+      <div class="step-num">STEP 02</div>
+      <h3>Interrogate the <em>data</em></h3>
+      <p>I work with raw measurement data directly — running my own analysis where I can, partnering with our data team for queries beyond my technical scope. I look for the number that tells the story, not just the numbers that fill a slide. If a metric looks surprising, I dig until I can explain it confidently.</p>
+    </div>
+    <div class="approach-step scroll-reveal">
+      <div class="step-num">STEP 03</div>
+      <h3>Build the <em>narrative</em></h3>
+      <p>A senior audience will not read fifty slides. They will read the headline of each slide and the first sentence below it. So I write the deck the way an executive reads it: one provocative insight per slide, supported by the minimum data needed, leading to one clear recommendation.</p>
+    </div>
+    <div class="approach-step scroll-reveal">
+      <div class="step-num">STEP 04</div>
+      <h3>Pressure-test for <em>delivery</em></h3>
+      <p>Because I also run sprints, I stress-test every recommendation against operational reality. Can the team actually build this? In what cycle? At what cost? The strategist in me builds the story; the Scrum Master in me makes sure the story holds up when engineering opens the ticket.</p>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-label scroll-reveal"><span class="num">04</span><span>Selected Work</span></div>
+
+  <div class="case">
+    <div class="case-header">
+      <div class="case-meta scroll-reveal">
+        <div class="case-num">CASE 01</div>
+        <div class="industry">FMCG · Instant Noodles</div>
+        <h2>A <em>strategic pitch</em> for a category leader losing its capital city.</h2>
+      </div>
+      <div class="scroll-reveal">
+        <div class="case-detail-block">
+          <h5>The Brief</h5>
+          <p>A major Indonesian FMCG conglomerate leads its category in national share of voice for OOH advertising — but holds 0% SOV in Jakarta, where its closest competitor runs 30+ uncontested placements. The client needed to understand whether their current OOH strategy was working and where to reallocate budget.</p>
+        </div>
+        <div class="case-detail-block">
+          <h5>My Role</h5>
+          <p>End-to-end strategic owner. I defined the audit framework, worked with the data team to pull placement-level data across 500+ ad locations, identified the strategic insights, built the narrative, and prepared the pitch deck for C-level and brand manager presentation.</p>
+        </div>
+        <div class="case-insight">
+          The client was dominating the map but losing the capital. They had won distribution — the next battle was winning <em>moments</em>.
+        </div>
+        <div class="case-detail-block">
+          <h5>Outcome</h5>
+          <p>The client responded strongly to the deck and opened follow-up conversations with two of their major sub-brands within the same group. Discussions ongoing.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slides-grid">
+      <div class="slide scroll-reveal">
+        <div class="slide-tag">SLIDE 07</div>
+        <h6>Dominating the map, <em>losing</em> the capital.</h6>
+        <div class="gap-viz">
+          <div class="gap-row"><div class="gap-brand">Bandung</div><div class="gap-track"><div class="gap-fill" style="width: 100%"></div></div><div class="gap-value">100%</div></div>
+          <div class="gap-row"><div class="gap-brand">Bekasi</div><div class="gap-track"><div class="gap-fill" style="width: 97%"></div></div><div class="gap-value">97%</div></div>
+          <div class="gap-row"><div class="gap-brand">Surabaya</div><div class="gap-track"><div class="gap-fill" style="width: 56%"></div></div><div class="gap-value">56%</div></div>
+          <div class="gap-row"><div class="gap-brand">Jakarta</div><div class="gap-track"><div class="gap-fill lead" style="width: 2%"></div></div><div class="gap-value" style="color: var(--accent-warm); font-weight: 600;">0%</div></div>
+        </div>
+        <div class="gap-callout">National SOV leader holds zero share in the capital — while a single competitor runs 34 placements unchallenged.</div>
+      </div>
+      <div class="slide slide-bignumber scroll-reveal">
+        <div class="slide-tag">SLIDE 06</div>
+        <h6>One brand carries the <em>weight</em>.</h6>
+        <div>
+          <div class="big"><em>85%</em></div>
+          <div class="sublabel">of the FMCG group's OOH presence is carried by a single sub-brand — leaving the rest of the portfolio structurally invisible.</div>
+        </div>
+      </div>
+      <div class="slide scroll-reveal featured">
+        <div class="slide-tag">SLIDE 20</div>
+        <h6>Three tactical pillars to <em>reclaim</em> the capital.</h6>
+        <div class="pillars-grid">
+          <div class="pillar"><div class="pillar-num">01</div><h7>Precision Placement</h7><p>Align youth-focused creative strictly within high-density school zones.</p></div>
+          <div class="pillar"><div class="pillar-num">02</div><h7>Contextual Triggers</h7><p>Exploit peak hunger windows during high-traffic evening commutes.</p></div>
+          <div class="pillar"><div class="pillar-num">03</div><h7>Market Reclamation</h7><p>Aggressive large-format re-entry into the undefended capital to neutralize competitors.</p></div>
+        </div>
+      </div>
+      <div class="slide scroll-reveal featured">
+        <div class="slide-tag">SLIDE 27</div>
+        <h6>Every moment has a <em>message</em>.</h6>
+        <p style="font-size: 12px; color: var(--ink-mute); margin-bottom: 4px;">Matching consumer mindset to OOH strategy across the day.</p>
+        <div class="moment-map">
+          <div class="moment-cell"><div class="time">6 – 9 AM</div><div class="mindset">"Need a quick breakfast — high energy."</div></div>
+          <div class="moment-cell"><div class="time">12 – 2 PM</div><div class="mindset">"Hungry. Need something fast and tasty."</div></div>
+          <div class="moment-cell"><div class="time">2 – 4 PM</div><div class="mindset">"Free! Time for a snack."</div></div>
+          <div class="moment-cell hilite"><div class="time">5 – 8 PM</div><div class="mindset">"Tired, hungry, stuck in traffic."</div></div>
+          <div class="moment-cell"><div class="time">9 – 11 PM</div><div class="mindset">"Craving something. Comfort food."</div></div>
+        </div>
+      </div>
+      <div class="slide slide-quote scroll-reveal">
+        <div class="slide-tag">SLIDE 30</div>
+        <div class="quote-mark">"</div>
+        <div class="quote-text">The category leader has already won distribution. The next battle is winning <em>moments</em>.</div>
+        <div class="quote-attr">Strategic recommendation · 2026</div>
+      </div>
+      <div class="slide scroll-reveal">
+        <div class="slide-tag">SLIDE 10</div>
+        <h6>The audit, <em>synthesized</em>.</h6>
+        <div class="asset-grid" style="margin-top: 16px;">
+          <div class="asset-cell win"><div class="asset-num"><em>11</em></div><div class="asset-label"><strong>Perfect Alignment</strong><br><span style="color: var(--ink-mute);">high POI + targeted creative</span></div></div>
+          <div class="asset-cell"><div class="asset-num">13</div><div class="asset-label"><strong>Placement Mismatch</strong><br><span style="color: var(--ink-mute);">niche creative, low density</span></div></div>
+          <div class="asset-cell"><div class="asset-num">18</div><div class="asset-label"><strong>Creative Mismatch</strong><br><span style="color: var(--ink-mute);">generic creative, high density</span></div></div>
+        </div>
+        <p style="font-size: 10px; color: var(--ink-mute); margin-top: 12px; line-height: 1.45;">Only 33% of youth-targeted panels currently land in actual youth zones — the rest are spending without precision.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="case">
+    <div class="case-header">
+      <div class="case-meta scroll-reveal">
+        <div class="case-num">CASE 02</div>
+        <div class="industry">Tobacco · East Jakarta Corridor</div>
+        <h2>A <em>quarterly business review</em> that turned a credibility risk into the headline.</h2>
+      </div>
+      <div class="scroll-reveal">
+        <div class="case-detail-block"><h5>The Brief</h5><p>An existing tobacco client needed a Q1 performance review across 14 OOH inventory units in the East Jakarta corridor. The deliverable needed to answer one commercial question: which assets to extend, which to relocate, and which to drop heading into Q2.</p></div>
+        <div class="case-detail-block"><h5>My Role</h5><p>Owned the entire QBR end-to-end — from defining the measurement framework, to working with the data team on reach/frequency/overlap analysis, to writing the strategic recommendations, to building and presenting the client-facing deck.</p></div>
+        <div class="case-insight">The headline reach number looked initially like an over-counting error. A less-experienced analyst would have buried it. I led with it — and explained why it was a feature, not a bug.</div>
+        <div class="case-detail-block"><h5>Outcome</h5><p>The QBR strengthened client confidence in Playlog's measurement methodology and supported continued portfolio investment for Q2.</p></div>
+      </div>
+    </div>
+    <div class="slides-grid">
+      <div class="slide slide-bignumber scroll-reveal">
+        <div class="slide-tag">SLIDE 02</div>
+        <h6>How many people are <em>seeing</em> us?</h6>
+        <div><div class="big"><em>1.85M</em></div><div class="sublabel">Unique reach across 14 sites in Q1 — equivalent to 814% of the local population.</div></div>
+      </div>
+      <div class="slide scroll-reveal">
+        <div class="slide-tag">SLIDE 03</div>
+        <h6>Why coverage is <em>814%</em>.</h6>
+        <div class="why-list">
+          <p><strong class="ink">227K</strong> · Local Pondok Gede population</p>
+          <p><strong class="accent">1.85M</strong> · Actual unique reach captured</p>
+          <p><strong class="ink">4.2×</strong> · Daily frequency</p>
+        </div>
+        <div class="gap-callout">Strong commuting corridor. We aren't over-reaching — we're building daily memory. The unique reach number is a feature, not a bug.</div>
+      </div>
+      <div class="slide scroll-reveal featured">
+        <div class="slide-tag">SLIDE 04</div>
+        <h6>Strategic coverage, <em>stronger voice</em>.</h6>
+        <p style="font-size: 12px; color: var(--ink-mute); margin-bottom: 16px;">Client holds a strong #2 category position — trailing the market leader by only 2 points.</p>
+        <div class="sov-bar-row"><div class="sov-bar-label">Market #1</div><div class="sov-bar"><div class="sov-bar-fill" style="width: 100%"></div></div><div class="sov-bar-value">30%</div></div>
+        <div class="sov-bar-row"><div class="sov-bar-label">Client</div><div class="sov-bar"><div class="sov-bar-fill accent" style="width: 93%"></div></div><div class="sov-bar-value">28%</div></div>
+        <div class="sov-bar-row"><div class="sov-bar-label">Others</div><div class="sov-bar"><div class="sov-bar-fill" style="width: 80%"></div></div><div class="sov-bar-value">24%</div></div>
+        <div class="sov-bar-row"><div class="sov-bar-label">Brand C</div><div class="sov-bar"><div class="sov-bar-fill" style="width: 53%"></div></div><div class="sov-bar-value">16%</div></div>
+        <div class="sov-bar-row"><div class="sov-bar-label">Brand D</div><div class="sov-bar"><div class="sov-bar-fill" style="width: 7%"></div></div><div class="sov-bar-value">2%</div></div>
+      </div>
+      <div class="slide scroll-reveal">
+        <div class="slide-tag">SLIDE 05</div>
+        <h6>Performing well — <em>still</em> room to grow.</h6>
+        <div class="asset-grid" style="margin-top: 12px;">
+          <div class="asset-cell"><div class="asset-num">1.85<span style="font-size: 16px;">M</span></div><div class="asset-label"><strong>Unique reach</strong><br><span style="color: var(--ink-mute);">non-duplicated</span></div></div>
+          <div class="asset-cell win"><div class="asset-num"><em>4.2×</em></div><div class="asset-label"><strong>Daily frequency</strong><br><span style="color: var(--ink-mute);">in the 3–6× sweet spot</span></div></div>
+          <div class="asset-cell"><div class="asset-num">25.7<span style="font-size: 16px;">M</span></div><div class="asset-label"><strong>Total impressions</strong><br><span style="color: var(--ink-mute);">Q1, 14 sites</span></div></div>
+        </div>
+      </div>
+      <div class="slide scroll-reveal">
+        <div class="slide-tag">SLIDE 08</div>
+        <h6>What <em>works</em> — and what's next.</h6>
+        <div class="works-list">
+          <div class="works-row"><div class="works-num">9</div><div class="works-text"><strong>Extend.</strong> Top-performing assets — keep running with regular monitoring.</div></div>
+          <div class="works-row dark"><div class="works-num">5</div><div class="works-text"><strong>Extend with overlap monitoring.</strong> High coverage but watching for audience saturation into Q2.</div></div>
+        </div>
+      </div>
+      <div class="slide slide-quote scroll-reveal">
+        <div class="slide-tag">APPENDIX</div>
+        <div class="quote-mark">"</div>
+        <div class="quote-text">A senior client doesn't just want the answer — they want to understand <em>how</em> you got there.</div>
+        <div class="quote-attr">Measurement framework · methodology</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="case">
+    <div class="case-header">
+      <div class="case-meta scroll-reveal">
+        <div class="case-num">CASE 03</div>
+        <div class="industry">Telecommunications · National</div>
+        <h2>A <em>competitive defense</em> for a market leader whose lead was thinner than it looked.</h2>
+      </div>
+      <div class="scroll-reveal">
+        <div class="case-detail-block"><h5>The Brief</h5><p>A major Indonesian telecommunications operator held the #1 position in OOH share of voice — but by a margin of only 8 billboards. The client needed to understand the true fragility of its lead and define a placement strategy that protected market leadership against price-driven competition.</p></div>
+        <div class="case-detail-block"><h5>My Role</h5><p>End-to-end strategic owner. I led the competitive industry analysis, worked with the data team to pull placement and spend data across 1,300+ billboards and five competing brands, identified strategic insights at category, brand, and city level, and built the executive deck.</p></div>
+        <div class="case-insight">The client was winning the visible scoreboard but losing critical moments. Market leadership in this category isn't held by ad volume — it's held by showing up at the right moment for the right consumer.</div>
+        <div class="case-detail-block"><h5>Outcome</h5><p>The deck reframed the client's understanding of their own market position — shifting the internal conversation from "we are #1" to "we are #1, and here is exactly where that position is fragile and how we defend it."</p></div>
+      </div>
+    </div>
+    <div class="slides-grid">
+      <div class="slide slide-bignumber scroll-reveal">
+        <div class="slide-tag">SLIDE 03</div>
+        <h6>The lead is only <em>8 billboards</em> thick.</h6>
+        <div><div class="big">35.4<em>%</em></div><div class="sublabel">Client SOV vs. 34.7% nearest competitor. A single aggressive quarter flips the #1 position.</div></div>
+      </div>
+      <div class="slide scroll-reveal">
+        <div class="slide-tag">SLIDE 03</div>
+        <h6>Snapshot of telco <em>OOH</em> by brand.</h6>
+        <div class="gap-viz" style="margin-top: 12px;">
+          <div class="gap-row"><div class="gap-brand">Client</div><div class="gap-track"><div class="gap-fill lead" style="width: 100%"></div></div><div class="gap-value">406</div></div>
+          <div class="gap-row"><div class="gap-brand">Comp. 1</div><div class="gap-track"><div class="gap-fill" style="width: 98%"></div></div><div class="gap-value">398</div></div>
+          <div class="gap-row"><div class="gap-brand">Comp. 2</div><div class="gap-track"><div class="gap-fill" style="width: 53%"></div></div><div class="gap-value">215</div></div>
+          <div class="gap-row"><div class="gap-brand">Comp. 3</div><div class="gap-track"><div class="gap-fill" style="width: 24%"></div></div><div class="gap-value">96</div></div>
+        </div>
+        <div class="gap-callout">A gap of 8 billboards. This lead requires active defense, not assumption.</div>
+      </div>
+      <div class="slide scroll-reveal featured">
+        <div class="slide-tag">SLIDE 11</div>
+        <h6>A sub-brand went <em>silent</em> during peak audience mobility.</h6>
+        <p style="font-size: 12px; color: var(--ink-mute); margin-bottom: 4px;">Monthly OOH presence — GenZ-focused sub-brand</p>
+        <div class="calendar-strip">
+          <div class="cal-cell">5</div><div class="cal-cell">3</div><div class="cal-cell">2</div><div class="cal-cell">2</div><div class="cal-cell">1</div><div class="cal-cell silent">0</div><div class="cal-cell silent">0</div><div class="cal-cell">5</div><div class="cal-cell">5</div><div class="cal-cell">5</div><div class="cal-cell">4</div><div class="cal-cell">2</div>
+        </div>
+        <div class="cal-labels">
+          <div class="cal-month">JAN</div><div class="cal-month">FEB</div><div class="cal-month">MAR</div><div class="cal-month">APR</div><div class="cal-month">MAY</div><div class="cal-month hilite">JUN</div><div class="cal-month hilite">JUL</div><div class="cal-month">AUG</div><div class="cal-month">SEP</div><div class="cal-month">OCT</div><div class="cal-month">NOV</div><div class="cal-month">DEC</div>
+        </div>
+        <div class="gap-callout">Zero placements during semester break, new phone season, and back-to-school — the highest GenZ outdoor mobility months of the year.</div>
+      </div>
+      <div class="slide scroll-reveal">
+        <div class="slide-tag">SLIDE 12</div>
+        <h6>The Depok <em>disconnect</em>.</h6>
+        <div class="disconnect-wrap">
+          <div class="disconnect-col">
+            <h7>Audience reality</h7>
+            <div class="disconnect-item"><span>Tech-interested</span><span>36%</span></div>
+            <div class="disconnect-item"><span>Young pro.</span><span>28%</span></div>
+            <div class="disconnect-item"><span>Families</span><span>24%</span></div>
+            <div class="disconnect-item hilite"><span>Budget-conscious</span><span>20%</span></div>
+            <div class="disconnect-item hilite"><span>Students</span><span>6%</span></div>
+          </div>
+          <div class="disconnect-col">
+            <h7>Current allocation</h7>
+            <div class="disconnect-item hilite"><span>Premium tier</span><span>89%</span></div>
+            <div class="disconnect-item"><span>GenZ sub-brand</span><span>4%</span></div>
+            <div class="disconnect-item"><span>Generic</span><span>4%</span></div>
+            <div class="disconnect-item"><span>Other</span><span>3%</span></div>
+            <div class="disconnect-item"><span>Mass-tier</span><span>0%</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="slide scroll-reveal">
+        <div class="slide-tag">SLIDE 17</div>
+        <h6>The <em>SIM purchase</em> moment.</h6>
+        <p style="font-size: 12px; color: var(--ink-mute); margin-bottom: 16px;">SIM purchases are not casual. They are triggered.</p>
+        <div class="sim-list">
+          <div class="sim-row"><div class="sim-num">01</div><div class="sim-text"><strong>New device purchase</strong> — the most common trigger.</div></div>
+          <div class="sim-row"><div class="sim-num">02</div><div class="sim-text"><strong>Lost SIM replacement</strong> — urgent, retail-driven.</div></div>
+          <div class="sim-row"><div class="sim-num">03</div><div class="sim-text"><strong>First-time activation</strong> — student intake, campus migration.</div></div>
+        </div>
+      </div>
+      <div class="slide slide-quote scroll-reveal">
+        <div class="slide-tag">SLIDE 25</div>
+        <div class="quote-mark">"</div>
+        <div class="quote-text">Price wars are won in the wallet. <em>Market leadership</em> is won in the mind.</div>
+        <div class="quote-attr">Closing recommendation</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding: 0 48px; max-width: 1280px; margin: 96px auto 0;">
+  <div class="earlier">
+    <div class="earlier-wrap">
+      <div>
+        <div class="section-label"><span class="num">05</span><span>Earlier Highlights</span></div>
+        <h3>Strategic instincts <em>before</em> the strategist title.</h3>
+      </div>
+      <div>
+        <p>Before strategic planning and agile delivery, I produced and hosted a daily radio show with seven segments. The role taught me everything that now underpins my strategy work: how to coordinate people, manage tight production timelines, and read an audience in real time.</p>
+        <p>My proudest result there was less about ratings and more about what they pointed to — that programming choices, when grounded in audience understanding, produce measurable commercial impact. The instinct I built then is the same one I apply now to client decks and sprint planning alike.</p>
+        <div class="earlier-stat">+70%</div>
+        <div class="earlier-stat-label">Listener growth driven over one year as producer of "Indika Sore" daily program</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="cta">
+  <div class="cta-content">
+    <div class="eyebrow scroll-reveal">Open to opportunities</div>
+    <h2 class="scroll-reveal">Looking for someone who turns <em>data</em> into <em>decisions</em> — and decisions into <em>shipped work</em>?</h2>
+    <p class="scroll-reveal">
+      I'm exploring senior strategic planning, client solutions, insights manager, and strategy-meets-product opportunities —
+      particularly in ad-tech, media measurement, B2B SaaS, and platform companies. If you're building a team that needs
+      someone who can sit between raw data, executive attention, and operational delivery, I'd love to talk.
+    </p>
+    <div class="cta-buttons scroll-reveal">
+      <a class="btn" href="mailto:intanreginamustika@gmail.com">intanreginamustika@gmail.com<span class="arrow">→</span></a>
+      <a class="btn secondary" href="https://www.linkedin.com/in/intan-regina-a57106214/" target="_blank" rel="noopener">LinkedIn<span class="arrow">↗</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>© 2026 · Intan Regina · Strategic Planner &amp; Scrum Master · Jakarta</div>
+  <div class="right">Portfolio v2.0</div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('in');
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+document.querySelectorAll('nav a').forEach(a => {
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+
+</body>
+</html>
